@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import javax.swing.UIManager;
 
 import view.LoginView;
+import view.ManagerView;
 
 
 public class Driver {
@@ -18,7 +19,6 @@ public class Driver {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//ManagerView frame = new ManagerView();
 					LoginView frame = new LoginView();
 					frame.setVisible(true);
 				} catch (Exception e) {
