@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 7:27:32 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="hibernate.Armbands" table="armbands" catalog="`AP-PROJECT`">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="armbandColours" class="hibernate.ArmbandColours" fetch="select">
+            <column name="colour" not-null="true" />
+        </many-to-one>
+        <property name="startDate" type="date">
+            <column name="startDate" length="10" not-null="true" />
+        </property>
+        <property name="endDate" type="date">
+            <column name="endDate" length="10" not-null="true" />
+        </property>
+        <property name="code" type="string">
+            <column name="code" length="12" not-null="true" />
+        </property>
+        <set name="guestses" table="guests" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="armband_id" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Guests" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 7:27:32 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="hibernate.Guests" table="guests" catalog="`AP-PROJECT`">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="armbands" class="hibernate.Armbands" fetch="select">
+            <column name="armband_id" not-null="true" />
+        </many-to-one>
+        <property name="idReal" type="string">
+            <column name="id_real" length="45">
+                <comment>eg. USR10021, MGR10025 or BTD10021</comment>
+            </column>
+        </property>
+        <property name="name" type="string">
+            <column name="name" length="50" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="45" />
+        </property>
+        <property name="code" type="string">
+            <column name="code" length="20" not-null="true" />
+        </property>
+        <set name="orderses" table="orders" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="guest_id" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Orders" />
+        </set>
+    </class>
+</hibernate-mapping>

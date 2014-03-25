@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 24, 2014 7:27:32 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="hibernate.Staff" table="staff" catalog="`AP-PROJECT`">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="staffRoles" class="hibernate.StaffRoles" fetch="select">
+            <column name="role_id" not-null="true" />
+        </many-to-one>
+        <property name="idReal" type="string">
+            <column name="id_real" length="45">
+                <comment>eg. USR10021, MGR10025 or BTD10021</comment>
+            </column>
+        </property>
+        <property name="name" type="string">
+            <column name="name" length="50" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="45" />
+        </property>
+        <property name="hours" type="string">
+            <column name="hours" length="20" not-null="true" />
+        </property>
+        <set name="orderses" table="staff_has_orders" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="staff_id" not-null="true" />
+            </key>
+            <many-to-many entity-name="hibernate.Orders">
+                <column name="orders_id" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>
