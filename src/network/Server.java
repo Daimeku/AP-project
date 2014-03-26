@@ -26,12 +26,14 @@ public class Server {								// Server to interact with the DB
 				
 			
 		}
+		
 		public void createConnection(){					// initializes the connection
 			
 			try{
 				
-				this.ssock = new ServerSocket(8912,1);
+				this.ssock = new ServerSocket(8888,1);
 				JOptionPane.showMessageDialog(null,"Server connection setup","Success",JOptionPane.INFORMATION_MESSAGE);
+				
 			}
 			catch(IOException ex){			
 				JOptionPane.showMessageDialog(null,"IO exception","EXCEPTION",JOptionPane.ERROR_MESSAGE);
@@ -57,8 +59,10 @@ public class Server {								// Server to interact with the DB
 						
 							choice = (String) input.readObject();			// reading the action/choice string
 							//options 
+							
 							if(choice.equals("add drink")){				// adding a drink
-								
+								System.out.println("Request recieved");
+								output.writeObject(true);
 							}
 							else if(choice.equals("modify drink")){		// changing a drink's details
 								
@@ -79,13 +83,15 @@ public class Server {								// Server to interact with the DB
 						}
 						
 					}while(!choice.equals("exit"));
+					
 					this.closeConnection();
 					
 				}
 			
 			}
 			catch(Exception ex){
-				
+				JOptionPane.showMessageDialog(null,"general exception wait for request","EXCEPTION",JOptionPane.ERROR_MESSAGE);
+				ex.printStackTrace();
 			}
 		}
 		

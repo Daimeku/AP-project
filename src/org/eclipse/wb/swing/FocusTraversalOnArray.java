@@ -1,4 +1,5 @@
-<<<<<<< HEAD
+/*
+// <<<<<<< HEAD
 /*******************************************************************************
  * Copyright (c) 2011 Google, Inc.
  * All rights reserved. This program and the accompanying materials
@@ -9,7 +10,7 @@
  * Contributors:
  *    Google, Inc. - initial API and implementation
  *******************************************************************************/
-=======
+// =======
 /*******************************************************************************
  * Copyright (c) 2011 Google, Inc.
  * All rights reserved. This program and the accompanying materials
@@ -20,7 +21,8 @@
  * Contributors:
  *    Google, Inc. - initial API and implementation
  *******************************************************************************/
->>>>>>> a1325121f9dc1dc68ec0cd6bc43a5787916de4a3
+// >>>>>>> a1325121f9dc1dc68ec0cd6bc43a5787916de4a3
+
 package org.eclipse.wb.swing;
 
 import java.awt.Component;

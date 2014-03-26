@@ -2,6 +2,8 @@ import java.awt.EventQueue;
 
 import javax.swing.UIManager;
 
+import network.Server;
+
 import view.LoginView;
 import view.ManagerView;
 
@@ -17,10 +19,14 @@ public class Driver {
 			e.printStackTrace();
 		}
 		EventQueue.invokeLater(new Runnable() {
+			
 			public void run() {
-				try {
+				
+				try {					
 					LoginView frame = new LoginView();
 					frame.setVisible(true);
+					Server server = new Server();
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

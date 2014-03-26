@@ -13,8 +13,8 @@ import java.sql.SQLException;
 public final class DBConnect {
 	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	public static final String DB = "jdbc:mysql://localhost/ap-project";
-	public static final String USER = "ap-project";
-	public static final String PASS = "root";
+	public static final String USER = "Yondaimeku";
+	public static final String PASS = "ashani";
 	
 	public static Connection getConnection() throws SQLException{
 		try {

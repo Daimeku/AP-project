@@ -22,6 +22,8 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import network.Server;
+
 import model.Guest;
 import model.Staff;
 
@@ -47,6 +49,7 @@ public class LoginView extends JFrame {
 		registerListeners();
 		addComponentsToWindow();
 		setWindowProperties();
+		
 	}
 	
 	
