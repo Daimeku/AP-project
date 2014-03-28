@@ -22,6 +22,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import network.Client;
 import network.Server;
 
 import model.Guest;
@@ -42,6 +43,17 @@ public class LoginView extends JFrame {
 	
 	
 	public LoginView() {
+		setTitle("AP-Project");
+		
+		initializeComponents();
+		setLayout();
+		registerListeners();
+		addComponentsToWindow();
+		setWindowProperties();
+		
+	}
+	
+	public LoginView(Client client) {
 		setTitle("AP-Project");
 		
 		initializeComponents();
@@ -157,6 +169,7 @@ public class LoginView extends JFrame {
 				 * Attempt to login...
 				 */
 				try {
+					
 					if(Staff.login(textUserName.getText().trim(), passwordField.getText().trim())){
 						ManagerView manager = new ManagerView();
 						manager.setVisible(true);;

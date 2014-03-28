@@ -8,7 +8,7 @@ import java.net.*;
 
 import javax.swing.JOptionPane;
 
-import model.DBConnect;
+import model.*;
 
 
 public class Server {								// Server to interact with the DB 
@@ -63,11 +63,23 @@ public class Server {								// Server to interact with the DB
 							if(choice.equals("add drink")){				// adding a drink
 								System.out.println("Request recieved");
 								output.writeObject(true);
+								Drink tempDrink = new Drink();
+								
+								
 							}
 							else if(choice.equals("modify drink")){		// changing a drink's details
 								
 							}
 							else if(choice.equals("delete drink")){		// deleting a drink
+								
+							}
+							else if(choice.equals("login")){			//logging in
+								output.writeObject(true);
+								Manager man = (Manager) input.readObject();
+								boolean res = DBM.staffLogin(man.getName(), man.getPassword());
+								output.writeObject(res);
+							}
+							else if(choice.equals("view drinks")){
 								
 							}
 									
