@@ -1,11 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class Staff extends User{
+public abstract class Staff extends User implements Serializable{
 
 	public Staff() {
 		super();

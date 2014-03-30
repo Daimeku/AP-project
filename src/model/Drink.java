@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -10,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 
-public class Drink {
+public class Drink implements Serializable{
 	private static final Logger log = Logger.getLogger(Drink.class); //logger for Drink class
 	public final static double MIN_PRICE = 100.0;
 	public final static String TYPES[] = {"Alcoholic", "Non-Alcoholic"};

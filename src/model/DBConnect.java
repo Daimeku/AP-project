@@ -7,12 +7,13 @@
 package model;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Vector;
 
-import com.mysql.jdbc.PreparedStatement;
+import javax.swing.table.DefaultTableModel;
+
+
+//import com.mysql.jdbc.PreparedStatement;
 
 public final class DBConnect {
 	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -22,8 +23,36 @@ public final class DBConnect {
 	public Connection conn;
 	public ResultSet result;
 	//public PreparedStatement state = conn.prepareStatement();
+	public DBConnect(){
+		try{
+				conn= 	this.getConnection();
+		}
+		catch(SQLException ex){
+			ex.printStackTrace();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}
+	public boolean addDrink(Drink drink){
+		boolean conf = false;
+		try{
+			PreparedStatement prep = conn.prepareStatement("INSERT INTO drinks(name, price, type) VALUES ('" + drink.getName() + "', '" + drink.getPrice() + "', '" + drink.getType() + "')"); 
+			int numChanged = prep.executeUpdate();
+			if( numChanged > 0 ){
+				conf = true;
+			}
+		}
+		catch(SQLException ex){
+			
+		}
+		catch(Exception ex){
+			
+		}
+		return conf;
+	}
 	
-	public boolean staffLogin(String user, String pass){
+	public boolean staffLogin(String user, String pass) throws SQLException{  
 		boolean conf = false;
 		try{
 			java.sql.PreparedStatement prep = conn.prepareStatement("SELECT * FROM staff WHERE name = '"+user+"' AND password = '" + pass + "'");
@@ -35,11 +64,13 @@ public final class DBConnect {
 			if(count == 1){
 				
 				conf = true;
+				System.out.println("got user");
 			}
+			
 		}
 		
 		catch(Exception ex){
-			
+			ex.printStackTrace();
 		}
 		return conf;
 	}
@@ -52,5 +83,70 @@ public final class DBConnect {
 		}
 		return DriverManager.getConnection(DBConnect.DB, DBConnect.USER, DBConnect.PASS);
 	}
+	
+	
+	public static class DrinkAdapter{
+		
+		/**
+		 * @return DefaultTableModel
+		 */
+		public static DefaultTableModel getTableModel(){
+			
+			/*
+			 *  TODO 
+			 *  Capitalize column titles and drink types
+			 */
+			
+			Vector<Object> drinks = new Vector<Object>(); // to return
+			Vector<Object> drinkRow = new Vector<Object>(); // a row
+			Vector<Object> columns = new Vector<Object>(); // columns
+			
+			int i = 0; // reusable iterator
+			
+			try {
+				Connection conn = DBConnect.getConnection();
+				ResultSet driSet = conn.prepareStatement("SELECT * from drinks").executeQuery(), typeSet;
+				ResultSetMetaData meta = driSet.getMetaData();
+		        int columnCount = meta.getColumnCount();
+		        
+		        //store column names  
+		        for (i = 2; i <= columnCount; i++) {
+		            columns.add(meta.getColumnName(i));
+		        }
+		        
+				while(driSet.next()){
+					// get row content (drink)
+					drinkRow = new Vector<Object>();
+					{
+						i = 0;
+						// add name and price
+						drinkRow.addElement( (String) driSet.getObject(i+2).toString() );
+						drinkRow.addElement( (Double) Double.parseDouble(driSet.getObject(i+3).toString()) );
+						
+						// fetch type string from drink_types table
+						typeSet = conn.prepareStatement("SELECT * from drink_types WHERE id = " + Integer.parseInt(driSet.getObject(i+4).toString())).executeQuery();
+						while(typeSet.next())
+							drinkRow.addElement( (String) typeSet.getObject(i+2).toString() );
+						typeSet.close();
+					}
+					
+					drinks.addElement(drinkRow);
+				}
+				
+				// close connection
+				conn.close();
+			}catch(SQLException e){
+			//	log.error("SQLException: "+e.getCause());
+			}catch(NumberFormatException e){
+			//	log.error("NumberFormatException: "+e.getCause());
+			}finally{
+				// keep going...
+			}
+			
+			return new DefaultTableModel(drinks, columns);
+			
+		}
+	}
+	
 	
 }

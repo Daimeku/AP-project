@@ -47,7 +47,7 @@ public class Server {								// Server to interact with the DB
 		
 		public void waitForRequest(){		// waits for client requests
 			
-			String choice = "";			// determines what client is requesting
+			String choice =null;			// determines what client is requesting
 			try{ 
 				while(true){
 					
@@ -56,7 +56,7 @@ public class Server {								// Server to interact with the DB
 					
 					do{
 						try{
-						
+							
 							choice = (String) input.readObject();			// reading the action/choice string
 							//options 
 							
@@ -64,6 +64,10 @@ public class Server {								// Server to interact with the DB
 								System.out.println("Request recieved");
 								output.writeObject(true);
 								Drink tempDrink = new Drink();
+								tempDrink = (Drink) input.readObject();
+								output.writeObject(DBM.addDrink(tempDrink));
+								System.out.println("Drink added");
+								
 								
 								
 							}
@@ -73,21 +77,31 @@ public class Server {								// Server to interact with the DB
 							else if(choice.equals("delete drink")){		// deleting a drink
 								
 							}
-							else if(choice.equals("login")){			//logging in
+							else if(choice.equals("staff login")){			//logging in
 								output.writeObject(true);
-								Manager man = (Manager) input.readObject();
-								boolean res = DBM.staffLogin(man.getName(), man.getPassword());
+								System.out.println("Reading manager");
+								Manager man = new Manager();
+								man = (Manager) input.readObject();
+								System.out.println("Read manager: "+man.getName()+" "+man.getPassword());
+								boolean res = DBM.staffLogin("John","123456");
+								System.out.println("logged in: "+res);
 								output.writeObject(res);
 							}
 							else if(choice.equals("view drinks")){
 								
 							}
+							else if(choice.equals("drink table")){
+								DrinkAdapter da = new DrinkAdapter();
+								output.writeObject(da.getTableModel());
+							}
+							
 									
 											
 						}
 						catch(EOFException ex){
 							JOptionPane.showMessageDialog(null,"connection terminated","Network Message",JOptionPane.PLAIN_MESSAGE);
-							ex.printStackTrace();
+							//ex.printStackTrace();
+							break;
 						}
 						catch(Exception ex){
 							JOptionPane.showMessageDialog(null,"general exception wait for request","EXCEPTION",JOptionPane.ERROR_MESSAGE);
@@ -115,10 +129,10 @@ public class Server {								// Server to interact with the DB
 				conn.close();
 			}
 			catch(IOException ex){
-				
+				ex.printStackTrace();
 			}
 			catch(Exception ex){
-				
+				ex.printStackTrace();
 			}
 		}
 		

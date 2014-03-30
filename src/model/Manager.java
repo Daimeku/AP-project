@@ -1,5 +1,8 @@
 package model;
-public class Manager extends Staff {
+
+import java.io.Serializable;
+
+public class Manager extends Staff implements Serializable{
 
 	public Manager() {
 		super();
