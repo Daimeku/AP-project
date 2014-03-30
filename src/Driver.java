@@ -25,7 +25,7 @@ public class Driver {
 				try {					
 					LoginView frame = new LoginView();
 					frame.setVisible(true);
-					Server server = new Server();
+					//Server server = new Server();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
