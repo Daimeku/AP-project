@@ -7,6 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.swing.JCheckBox;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
@@ -106,6 +107,7 @@ public class Drink implements Serializable{
 		        for (i = 2; i <= columnCount; i++) {
 		            columns.add((meta.getColumnName(i).substring(0, 1).toUpperCase() + meta.getColumnName(i).substring(1)));
 		        }
+		        columns.add("Selected");
 		        
 				while(driSet.next()){
 					// get row content (drink)
@@ -120,6 +122,7 @@ public class Drink implements Serializable{
 						typeSet = conn.prepareStatement("SELECT * from drink_types WHERE id = " + Integer.parseInt(driSet.getObject(i+4).toString())).executeQuery();
 						while(typeSet.next())
 							drinkRow.addElement( (String) typeSet.getObject(i+2).toString() );
+						drinkRow.addElement(new Boolean(null));
 						typeSet.close();
 					}
 					

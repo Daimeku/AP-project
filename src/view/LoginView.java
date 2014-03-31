@@ -195,8 +195,8 @@ public class LoginView extends JFrame {
 		
 		btnGuestLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				ManagerView manager = new ManagerView();
-				manager.setVisible(true);;
+				GuestView guest = new GuestView();
+				guest.setVisible(true);;
 				dispose();
 			}
 		});
