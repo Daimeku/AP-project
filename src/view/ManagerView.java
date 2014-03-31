@@ -35,7 +35,7 @@ public class ManagerView extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel toolBarPanel;
-	private JTable table;
+	private static JTable table;
 	private JMenuItem mntmExit;
 	private JMenuItem mntmAbout;
 
@@ -171,5 +171,9 @@ public class ManagerView extends JFrame {
 		
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	public static JTable getTable(){
+		return table;
 	}
 }
