@@ -22,6 +22,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.DefaultComboBoxModel;
 
 import model.Drink;
+import model.Drink.DrinkAdapter;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -129,6 +130,7 @@ public class AddDrinkView extends JDialog {
 								if(aDrink.save()){
 									JOptionPane.showMessageDialog(null, drinkName+" drink added!", "Drink Added",
 										    JOptionPane.INFORMATION_MESSAGE);
+									ManagerView.getTable().setModel(DrinkAdapter.getTableModel());
 									clearFields(); // or dispose();
 								}
 							} catch (SQLException e) {
