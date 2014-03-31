@@ -90,11 +90,6 @@ public class Drink implements Serializable{
 		 */
 		public static DefaultTableModel getTableModel(){
 			
-			/*
-			 *  TODO 
-			 *  Capitalize column titles and drink types
-			 */
-			
 			Vector<Object> drinks = new Vector<Object>(); // to return
 			Vector<Object> drinkRow = new Vector<Object>(); // a row
 			Vector<Object> columns = new Vector<Object>(); // columns
@@ -109,7 +104,7 @@ public class Drink implements Serializable{
 		        
 		        //store column names  
 		        for (i = 2; i <= columnCount; i++) {
-		            columns.add(meta.getColumnName(i));
+		            columns.add((meta.getColumnName(i).substring(0, 1).toUpperCase() + meta.getColumnName(i).substring(1)));
 		        }
 		        
 				while(driSet.next()){
