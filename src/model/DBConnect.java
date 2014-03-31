@@ -12,6 +12,8 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
+
 
 //import com.mysql.jdbc.PreparedStatement;
 
@@ -22,6 +24,7 @@ public final class DBConnect {
 	public static final String PASS = "ashani";
 	public Connection conn;
 	public ResultSet result;
+	private Logger log;
 	//public PreparedStatement state = conn.prepareStatement();
 	public DBConnect(){
 		try{
@@ -34,24 +37,62 @@ public final class DBConnect {
 			ex.printStackTrace();
 		}
 	}
+	
 	public boolean addDrink(Drink drink){
 		boolean conf = false;
 		try{
+			log.info("Attempting to add drink");
 			PreparedStatement prep = conn.prepareStatement("INSERT INTO drinks(name, price, type) VALUES ('" + drink.getName() + "', '" + drink.getPrice() + "', '" + drink.getType() + "')"); 
+			int numChanged = prep.executeUpdate();
+			log.info("drinks inserted? :"+numChanged);
+			if( numChanged > 0 ){
+				conf = true;
+			}
+		}
+		catch(SQLException ex){
+			log.error("SQL Exception. error adding drink");
+		}
+		catch(Exception ex){
+			log.error("General exception adding drink");
+		}
+		return conf;
+	}
+	
+	public boolean updateDrink(Drink drink){
+		boolean conf = false;
+		try{
+			PreparedStatement prep = conn.prepareStatement("UPDATE drinks SET name='"+drink.getName()+"' price='"+drink.getPrice()+"' WHERE id = '"+drink.getID()); 
 			int numChanged = prep.executeUpdate();
 			if( numChanged > 0 ){
 				conf = true;
 			}
 		}
 		catch(SQLException ex){
-			
+			log.error("SQL exception in update drink");
 		}
 		catch(Exception ex){
-			
+			log.error("Exception in update drink");
 		}
 		return conf;
 	}
 	
+	public boolean deleteDrink(String id){
+		boolean conf = false;
+		try{
+			PreparedStatement prep = conn.prepareStatement("DELETE * FROM drinks WHERE id='"+id+"'"); 
+			int numChanged = prep.executeUpdate();
+			if( numChanged > 0 ){
+				conf = true;
+			}
+		}
+		catch(SQLException ex){
+			log.error("SQL Exception in delete drink");
+		}
+		catch(Exception ex){
+			log.error(" exception in delete Drink");
+		}
+		return conf;
+	}
 	public boolean staffLogin(String user, String pass) throws SQLException{  
 		boolean conf = false;
 		try{

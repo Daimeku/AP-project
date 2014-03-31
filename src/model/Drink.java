@@ -20,6 +20,7 @@ public class Drink implements Serializable{
 	private double price;
 	private String name;
 	private int type;
+	private int ID;
 	
 	public Drink(String drinkName, int drinkType, Double drinkPrice) {
 		super();
@@ -35,6 +36,14 @@ public class Drink implements Serializable{
 	}
 	
 	
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
 	public double getPrice() {
 		return price;
 	}

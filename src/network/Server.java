@@ -72,12 +72,17 @@ public class Server {								// Server to interact with the DB
 								
 							}
 							else if(choice.equals("modify drink")){		// changing a drink's details
-								
+								System.out.println("Request recieved");
+								output.writeObject(true);
+								Drink tempDrink = new Drink();
+								tempDrink = (Drink) input.readObject();
+								output.writeObject(DBM.addDrink(tempDrink));
+								System.out.println("Drink added");
 							}
 							else if(choice.equals("delete drink")){		// deleting a drink
 								
 							}
-							else if(choice.equals("staff login")){			//logging in
+							else if(choice.equals("staff login")){			// logging in
 								output.writeObject(true);
 								System.out.println("Reading manager");
 								Manager man = new Manager();
@@ -86,10 +91,7 @@ public class Server {								// Server to interact with the DB
 								boolean res = DBM.staffLogin("John","123456");
 								System.out.println("logged in: "+res);
 								output.writeObject(res);
-							}
-							else if(choice.equals("view drinks")){
-								
-							}
+							}							
 							else if(choice.equals("drink table")){
 								DrinkAdapter da = new DrinkAdapter();
 								output.writeObject(da.getTableModel());
@@ -100,6 +102,11 @@ public class Server {								// Server to interact with the DB
 						}
 						catch(EOFException ex){
 							JOptionPane.showMessageDialog(null,"connection terminated","Network Message",JOptionPane.PLAIN_MESSAGE);
+							//ex.printStackTrace();
+							break;
+						}
+						catch(SocketException ex){
+							JOptionPane.showMessageDialog(null,"connection terminated: socket exception","Network Message",JOptionPane.PLAIN_MESSAGE);
 							//ex.printStackTrace();
 							break;
 						}
