@@ -23,11 +23,8 @@ public class Driver {
 			public void run() {
 				
 				try {
-				//	LoginView frame = new LoginView();
-				//	frame.setVisible(true);
+					
 					Server server = new Server();
-					LoginView frame = new LoginView();
-					frame.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();

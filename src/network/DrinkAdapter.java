@@ -37,7 +37,9 @@ public  class DrinkAdapter{
 	        //store column names  
 	        for (i = 2; i <= columnCount; i++) {
 	            columns.add(meta.getColumnName(i));
+	            
 	        }
+	        columns.add("Selected");
 	        
 			while(driSet.next()){
 				// get row content (drink)
@@ -48,10 +50,12 @@ public  class DrinkAdapter{
 					drinkRow.addElement( (String) driSet.getObject(i+2).toString() );
 					drinkRow.addElement( (Double) Double.parseDouble(driSet.getObject(i+3).toString()) );
 					
+					
 					// fetch type string from drink_types table
 					typeSet = conn.prepareStatement("SELECT * from drink_types WHERE id = " + Integer.parseInt(driSet.getObject(i+4).toString())).executeQuery();
 					while(typeSet.next())
 						drinkRow.addElement( (String) typeSet.getObject(i+2).toString() );
+					drinkRow.addElement(new Boolean(null));
 					typeSet.close();
 				}
 				
@@ -67,8 +71,9 @@ public  class DrinkAdapter{
 		}finally{
 			// keep going...
 		}
+		DefaultTableModel tm = new DefaultTableModel(drinks, columns);
 		
-		return new DefaultTableModel(drinks, columns);
+		return (tm);
 		
 	}
 }
