@@ -121,7 +121,7 @@ public final class DBConnect {
 		boolean added = false;
 		int k=0;
 		try{
-			PreparedStatement prep = conn.prepareStatement("INSERT into orders (id,date,guest_id) VALUES ('"+ order.getId()+ "','" + order.getDate() +"', '"+order.getGuestID()+"')");
+			PreparedStatement prep = conn.prepareStatement("INSERT into orders (date,guest_id) VALUES ('"+ "','" + order.getDdate() +"', '"+order.getGuestID()+"')");
 			
 			int p = prep.executeUpdate();
 			//result = prep2.executeQuery();
@@ -139,7 +139,7 @@ public final class DBConnect {
 					added = true;
 		}
 		catch(Exception ex){
-			
+			ex.printStackTrace();
 		}
 		
 		return added;

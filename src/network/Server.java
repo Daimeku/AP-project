@@ -8,6 +8,8 @@ import java.net.*;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 import model.*;
 
 
@@ -18,6 +20,7 @@ public class Server {								// Server to interact with the DB
 		private ServerSocket ssock;
 		private Socket conn;
 		private DBConnect DBM;
+		private Logger log;
 		
 		public Server(){
 			DBM = new DBConnect();
@@ -96,8 +99,15 @@ public class Server {								// Server to interact with the DB
 								DrinkAdapter da = new DrinkAdapter();
 								output.writeObject(da.getTableModel());
 							}
-							else if(choice.equals("accept order")){
+							else if(choice.equals("add order")){
 								
+								output.writeObject(true);
+								System.out.println("reading order");
+								Order order = (Order) input.readObject();
+								System.out.println("Read order, now adding it");
+								boolean added = DBM.addOrder(order);
+								System.out.println("order added: "+added);
+								output.writeObject(added);
 							}
 									
 											
