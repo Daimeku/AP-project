@@ -96,7 +96,9 @@ public class Server {								// Server to interact with the DB
 								DrinkAdapter da = new DrinkAdapter();
 								output.writeObject(da.getTableModel());
 							}
-							
+							else if(choice.equals("accept order")){
+								
+							}
 									
 											
 						}

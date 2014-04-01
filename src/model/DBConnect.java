@@ -116,6 +116,35 @@ public final class DBConnect {
 		return conf;
 	}
 	
+	public boolean addOrder(Order order){
+		
+		boolean added = false;
+		int k=0;
+		try{
+			PreparedStatement prep = conn.prepareStatement("INSERT into orders (id,date,guest_id) VALUES ('"+ order.getId()+ "','" + order.getDate() +"', '"+order.getGuestID()+"')");
+			
+			int p = prep.executeUpdate();
+			//result = prep2.executeQuery();
+			
+			
+				while(!order.getDrinkList().isEmpty())	{
+						Drink tempDrink = new Drink();
+						
+						tempDrink = order.getDrinkList().remove(order.getDrinkList().size()-1);
+						PreparedStatement prep2 = conn.prepareStatement("INSERT into orders_has_drinks (orders_id, drinks_id) VALUES ('"+ tempDrink.getID() +"', '" + order.getGuestID() + "')");
+						k = prep2.executeUpdate();
+				}
+					
+				if (p>0)
+					added = true;
+		}
+		catch(Exception ex){
+			
+		}
+		
+		return added;
+	}
+	
 	public static Connection getConnection() throws SQLException{
 		try {
 			Class.forName(DBConnect.JDBC_DRIVER); // Access JDBC driver from JAR 
