@@ -20,8 +20,8 @@ import org.apache.log4j.Logger;
 public final class DBConnect {
 	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	public static final String DB = "jdbc:mysql://localhost/ap-project";
-	public static final String USER = "Yondaimeku";
-	public static final String PASS = "ashani";
+	public static final String USER = "root";
+	public static final String PASS = "";
 	public Connection conn;
 	public ResultSet result;
 	private Logger log;
