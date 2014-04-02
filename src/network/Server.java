@@ -68,11 +68,10 @@ public class Server {								// Server to interact with the DB
 								output.writeObject(true);
 								Drink tempDrink = new Drink();
 								tempDrink = (Drink) input.readObject();
-								output.writeObject(DBM.addDrink(tempDrink));
-								System.out.println("Drink added");
-								
-								
-								
+								boolean res = DBM.addDrink(tempDrink) ;
+								output.writeObject(res);
+								System.out.println("Drink added: "+res);
+																								
 							}
 							else if(choice.equals("modify drink")){		// changing a drink's details
 								System.out.println("Request recieved");
@@ -89,14 +88,8 @@ public class Server {								// Server to interact with the DB
 								output.writeObject(true);
 								System.out.println("Reading manager");
 								Manager man = new Manager(); 
-								String username,password;
+								
 								man = (Manager) input.readObject();
-//								username = (String) input.readObject();
-//								password = (String) input.readObject();
-//								man.setName(username);
-//								man.setPassword(password);
-								//man = (Staff) input.readObject();
-								//man.equals(" ");
 								System.out.println("Read manager: "+man.getName()+" "+man.getPassword());
 								boolean res = DBM.staffLogin(man.getName(),man.getPassword());
 								System.out.println("logged in: "+res);

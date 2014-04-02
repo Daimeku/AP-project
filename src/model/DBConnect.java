@@ -27,8 +27,10 @@ public final class DBConnect {
 	private Logger log;
 	//public PreparedStatement state = conn.prepareStatement();
 	public DBConnect(){
+		log = Logger.getLogger(getClass());
+		
 		try{
-				conn= 	this.getConnection();
+				conn= this.getConnection();
 		}
 		catch(SQLException ex){
 			ex.printStackTrace();
@@ -42,18 +44,24 @@ public final class DBConnect {
 		boolean conf = false;
 		try{
 			log.info("Attempting to add drink");
+			System.out.println("going to add drink");
 			PreparedStatement prep = conn.prepareStatement("INSERT INTO drinks(name, price, type) VALUES ('" + drink.getName() + "', '" + drink.getPrice() + "', '" + drink.getType() + "')"); 
+			
 			int numChanged = prep.executeUpdate();
 			log.info("drinks inserted? :"+numChanged);
 			if( numChanged > 0 ){
 				conf = true;
+				System.out.println("Drink changed");
 			}
+			System.out.println("update successful? "+numChanged);
 		}
 		catch(SQLException ex){
-			log.error("SQL Exception. error adding drink");
+		log.error("SQL Exception. error adding drink");
+			ex.printStackTrace();
 		}
 		catch(Exception ex){
 			log.error("General exception adding drink");
+			ex.printStackTrace();
 		}
 		return conf;
 	}
