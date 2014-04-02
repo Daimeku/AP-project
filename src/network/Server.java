@@ -94,7 +94,19 @@ public class Server {								// Server to interact with the DB
 								boolean res = DBM.staffLogin(man.getName(),man.getPassword());
 								System.out.println("logged in: "+res);
 								output.writeObject(res);
-							}							
+							}
+							else if(choice.equals("guest login")){
+								output.writeObject(true);
+								System.out.println("Reading manager");
+								ArmBand ab = new ArmBand();
+								Guest man = new Guest(ab); 
+								
+								man = (Guest) input.readObject();
+								System.out.println("Read manager: "+man.getName()+" "+man.getPassword());
+								boolean res = DBM.staffLogin(man.getName(),man.getPassword());
+								System.out.println("logged in: "+res);
+								output.writeObject(res);
+							}
 							else if(choice.equals("drink table")){
 								DrinkAdapter da = new DrinkAdapter();
 								output.writeObject(da.getTableModel());

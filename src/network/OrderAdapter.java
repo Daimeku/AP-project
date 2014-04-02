@@ -15,7 +15,7 @@ import model.Drink;
 
 public  class OrderAdapter{
 	
-	private static Logger log;
+	private static Logger log = Logger.getLogger(OrderAdapter.class);
 	
 	/**
 	 * Get the orders table.

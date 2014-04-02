@@ -14,7 +14,7 @@ import model.DBConnect;
 
 public  class DrinkAdapter{
 	
-	private static Logger log;
+	private static Logger log = Logger.getLogger(DrinkAdapter.class);
 	
 	/**
 	 * @return DefaultTableModel
@@ -39,7 +39,7 @@ public  class DrinkAdapter{
 	            
 	        }
 	        columns.add("Selected");
-	        
+	        log.info("Getting drink table model");
 			while(driSet.next()){
 				// get row content (drink)
 				drinkRow = new Vector<Object>();

@@ -14,6 +14,7 @@ public class ArmBand {
 		code="";
 	}
 	
+	
 	public ArmBand(Date sDate, Date eDate, int colour, String code) {
 		this.startDate = sDate;
 		this.endDate = eDate;
