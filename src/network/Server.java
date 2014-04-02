@@ -112,6 +112,10 @@ public class Server {								// Server to interact with the DB
 								DrinkAdapter da = new DrinkAdapter();
 								output.writeObject(da.getTableModel());
 							}
+							else if(choice.equals("order table")){
+								OrderAdapter aa = new OrderAdapter();
+								output.writeObject(aa.getTableModel());
+							}
 							else if(choice.equals("add order")){
 								
 								output.writeObject(true);

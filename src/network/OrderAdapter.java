@@ -27,7 +27,6 @@ public  class OrderAdapter{
 		Vector<Object> orderRow = new Vector<Object>(); // a row
 		Vector<Object> columns = new Vector<Object>(); // columns
 		
-		int i = 0; // reusable iterator
 		
 		try {
 			Connection conn = DBConnect.getConnection();
@@ -36,20 +35,34 @@ public  class OrderAdapter{
 	        int columnCount = meta.getColumnCount();
 	        
 	        //store column names  
-	        for (i = 2; i <= columnCount; i++) {
+	        for (int i = 1; i <= columnCount; i++) {
 	            columns.add((meta.getColumnName(i).substring(0, 1).toUpperCase() + meta.getColumnName(i).substring(1)));
 	            
 	        }
-	        columns.add("Selected");
+	        columns.add("Drinks");
+	        columns.add("Bill Total");
 	        
 			while(orderSet.next()){
 				// get row content (order)
 				orderRow = new Vector<Object>();
 				{
-					i = 0;
-					// add name and price
-					orderRow.addElement( (String) orderSet.getObject(i+2).toString() );
-					orderRow.addElement( (Double) Double.parseDouble(orderSet.getObject(i+3).toString()) );
+					final int orderId = (Integer) Integer.parseInt(orderSet.getObject(1).toString());
+					final Vector<Drink> drinksVec = getDrinks(orderId);
+					// add elements of row
+					orderRow.addElement( orderId );
+					orderRow.addElement( (String) orderSet.getObject(2).toString() );
+					orderRow.addElement( (Integer) Integer.parseInt(orderSet.getObject(3).toString()) );
+					// list drinks from vector
+					String drinks = new String();
+					double orderTotal = 0.0;
+					for(int i = 0; i < drinksVec.size(); i++){
+						Drink current = drinksVec.get(i);
+						drinks += current.getName();
+						orderTotal += current.getPrice();
+						if(i < drinksVec.size()-1) drinks += ", ";
+					}
+					orderRow.addElement(drinks);
+					orderRow.addElement(String.format("$%.02f", orderTotal));
 				}
 				
 				orders.addElement(orderRow);
@@ -58,7 +71,8 @@ public  class OrderAdapter{
 			// close connection
 			conn.close();
 		}catch(SQLException e){
-			log.error("SQLException: "+e.getCause());
+			log.error("SQLException: "+e.getStackTrace());
+			e.printStackTrace();
 		}catch(NumberFormatException e){
 			log.error("NumberFormatException: "+e.getCause());
 		}finally{
@@ -83,24 +97,28 @@ public  class OrderAdapter{
 			conn = DBConnect.getConnection();
 			// retrieve drinks on order
 			ResultSet drinksOnOrder = conn.prepareStatement(
-					"SELECT drinks_id from orders_has_drinks").executeQuery(), singleDrink;
+					"SELECT drinks_id FROM orders_has_drinks WHERE orders_id =" + orderId).executeQuery(), singleDrink;
 
 			while(drinksOnOrder.next()){
 				// retrieve details of each drink
 				singleDrink = conn.prepareStatement(
 						"SELECT * from drinks WHERE id = "
-								+ Integer.parseInt(drinksOnOrder.getObject(2)
+								+ Integer.parseInt(drinksOnOrder.getObject(1)
 										.toString())).executeQuery();
-				Drink drink = new Drink(singleDrink.getObject(2).toString(), // drink name
-						Integer.parseInt(singleDrink.getObject(4).toString()), // drink type
-						Double.parseDouble(singleDrink.getObject(3).toString()) // drink price
-				);
-				singleDrink.close();
-				drinks.add(drink);
+				if(singleDrink.next()){
+					Drink drink = new Drink(singleDrink.getObject(2).toString(), // drink name
+							Integer.parseInt(singleDrink.getObject(4).toString()), // drink type
+							Double.parseDouble(singleDrink.getObject(3).toString()) // drink price
+					);
+					
+					drinks.add(drink);
+					singleDrink.close();
+				}
 			}
 			drinksOnOrder.close();	
 		} catch (SQLException e) {
-			log.error("SQLException: "+e.getCause());
+			log.error("SQLException in getDrinks(): " +e.getStackTrace());
+			e.printStackTrace();
 		}
 		return drinks;
 	}
