@@ -12,25 +12,26 @@ import org.apache.log4j.Logger;
 
 import model.DBConnect;
 
-public  class DrinkAdapter{
+public  class OrderAdapter{
 	
 	private static Logger log;
 	
 	/**
+	 * Get the orders table.
 	 * @return DefaultTableModel
 	 */
 	public static DefaultTableModel getTableModel(){
 		
-		Vector<Object> drinks = new Vector<Object>(); // to return
-		Vector<Object> drinkRow = new Vector<Object>(); // a row
+		Vector<Object> orders = new Vector<Object>(); // to return
+		Vector<Object> orderRow = new Vector<Object>(); // a row
 		Vector<Object> columns = new Vector<Object>(); // columns
 		
 		int i = 0; // reusable iterator
 		
 		try {
 			Connection conn = DBConnect.getConnection();
-			ResultSet driSet = conn.prepareStatement("SELECT * from drinks").executeQuery(), typeSet;
-			ResultSetMetaData meta = driSet.getMetaData();
+			ResultSet orderSet = conn.prepareStatement("SELECT * from orders").executeQuery(), typeSet;
+			ResultSetMetaData meta = orderSet.getMetaData();
 	        int columnCount = meta.getColumnCount();
 	        
 	        //store column names  
@@ -40,25 +41,17 @@ public  class DrinkAdapter{
 	        }
 	        columns.add("Selected");
 	        
-			while(driSet.next()){
-				// get row content (drink)
-				drinkRow = new Vector<Object>();
+			while(orderSet.next()){
+				// get row content (order)
+				orderRow = new Vector<Object>();
 				{
 					i = 0;
 					// add name and price
-					drinkRow.addElement( (String) driSet.getObject(i+2).toString() );
-					drinkRow.addElement( (Double) Double.parseDouble(driSet.getObject(i+3).toString()) );
-					
-					
-					// fetch type string from drink_types table
-					typeSet = conn.prepareStatement("SELECT * from drink_types WHERE id = " + Integer.parseInt(driSet.getObject(i+4).toString())).executeQuery();
-					while(typeSet.next())
-						drinkRow.addElement( (String) typeSet.getObject(i+2).toString() );
-					drinkRow.addElement(new Boolean(null));
-					typeSet.close();
+					orderRow.addElement( (String) orderSet.getObject(i+2).toString() );
+					orderRow.addElement( (Double) Double.parseDouble(orderSet.getObject(i+3).toString()) );
 				}
 				
-				drinks.addElement(drinkRow);
+				orders.addElement(orderRow);
 			}
 			
 			// close connection
@@ -70,8 +63,8 @@ public  class DrinkAdapter{
 		}finally{
 			// keep going...
 		}
+		DefaultTableModel tableModel = new DefaultTableModel(orders, columns);
 		
-		DefaultTableModel tm = new DefaultTableModel(drinks, columns);
-		return (tm);
+		return (tableModel);
 	}
 }
