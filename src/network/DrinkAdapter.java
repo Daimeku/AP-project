@@ -66,9 +66,8 @@ public  class DrinkAdapter{
 		}finally{
 			// keep going...
 		}
+		
 		DefaultTableModel tm = new DefaultTableModel(drinks, columns);
-		
 		return (tm);
-		
 	}
 }
