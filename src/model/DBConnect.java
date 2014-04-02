@@ -121,7 +121,7 @@ public final class DBConnect {
 		boolean added = false;
 		int k=0;
 		try{
-			PreparedStatement prep = conn.prepareStatement("INSERT into orders (date,guest_id) VALUES ('"+ "','" + order.getDdate() +"', '"+order.getGuestID()+"')");
+			PreparedStatement prep = conn.prepareStatement("INSERT into orders (date,guest_id) VALUES ('"+ order.getDdate() +"', '"+order.getGuestID()+"')");
 			
 			int p = prep.executeUpdate();
 			//result = prep2.executeQuery();
@@ -131,7 +131,7 @@ public final class DBConnect {
 						Drink tempDrink = new Drink();
 						
 						tempDrink = order.getDrinkList().remove(order.getDrinkList().size()-1);
-						PreparedStatement prep2 = conn.prepareStatement("INSERT into orders_has_drinks (orders_id, drinks_id) VALUES ('"+ tempDrink.getID() +"', '" + order.getGuestID() + "')");
+						PreparedStatement prep2 = conn.prepareStatement("INSERT into orders_has_drinks (orders_id, drinks_id) VALUES ('"+ order.getId() +"', '" + tempDrink.getID() + "')");
 						k = prep2.executeUpdate();
 				}
 					
@@ -155,68 +155,7 @@ public final class DBConnect {
 	}
 	
 	
-	public static class DrinkAdapter{
-		
-		/**
-		 * @return DefaultTableModel
-		 */
-		public static DefaultTableModel getTableModel(){
-			
-			/*
-			 *  TODO 
-			 *  Capitalize column titles and drink types
-			 */
-			
-			Vector<Object> drinks = new Vector<Object>(); // to return
-			Vector<Object> drinkRow = new Vector<Object>(); // a row
-			Vector<Object> columns = new Vector<Object>(); // columns
-			
-			int i = 0; // reusable iterator
-			
-			try {
-				Connection conn = DBConnect.getConnection();
-				ResultSet driSet = conn.prepareStatement("SELECT * from drinks").executeQuery(), typeSet;
-				ResultSetMetaData meta = driSet.getMetaData();
-		        int columnCount = meta.getColumnCount();
-		        
-		        //store column names  
-		        for (i = 2; i <= columnCount; i++) {
-		            columns.add(meta.getColumnName(i));
-		        }
-		        
-				while(driSet.next()){
-					// get row content (drink)
-					drinkRow = new Vector<Object>();
-					{
-						i = 0;
-						// add name and price
-						drinkRow.addElement( (String) driSet.getObject(i+2).toString() );
-						drinkRow.addElement( (Double) Double.parseDouble(driSet.getObject(i+3).toString()) );
-						
-						// fetch type string from drink_types table
-						typeSet = conn.prepareStatement("SELECT * from drink_types WHERE id = " + Integer.parseInt(driSet.getObject(i+4).toString())).executeQuery();
-						while(typeSet.next())
-							drinkRow.addElement( (String) typeSet.getObject(i+2).toString() );
-						typeSet.close();
-					}
-					
-					drinks.addElement(drinkRow);
-				}
-				
-				// close connection
-				conn.close();
-			}catch(SQLException e){
-			//	log.error("SQLException: "+e.getCause());
-			}catch(NumberFormatException e){
-			//	log.error("NumberFormatException: "+e.getCause());
-			}finally{
-				// keep going...
-			}
-			
-			return new DefaultTableModel(drinks, columns);
-			
-		}
-	}
+	
 	
 	
 }

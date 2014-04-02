@@ -1,19 +1,18 @@
 package model;
 
-import java.sql.Date;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Order implements Serializable{
 	
-	private String guestID;
+	private int guestID;
 	private String id;
 	private java.util.Date date;
 	private ArrayList<Drink> drinkList;
 	private java.sql.Date ddate;
 	
 	public Order(){		
-		guestID = "1111";
+		guestID = 0;
 		id="0000";
 		date = new java.util.Date();
 		drinkList = new ArrayList<Drink>();		
@@ -21,20 +20,21 @@ public class Order implements Serializable{
 	}
 	
 	
+	
 
 	public Order(Drink drink) {
 		super();
-		this.guestID = "1111";
+		this.guestID = 1;
 		this.id = "0000";
-		date = new java.util.Date();
+		this.date = new java.util.Date();
 		drinkList.add(drink);
-		ddate = new java.sql.Date(date.getTime());
+		this.ddate = new java.sql.Date(date.getTime());
+		
 	}
 	
 	public void addDrink(Drink drink){
 		drinkList.add(drink);
 	}
-
 
 	public java.sql.Date getDdate() {
 		return ddate;
@@ -45,14 +45,12 @@ public class Order implements Serializable{
 	public void setDdate(java.sql.Date ddate) {
 		this.ddate = ddate;
 	}
-
-
-
-	public String getGuestID() {
+	
+	public int getGuestID() {
 		return guestID;
 	}
 
-	public void setGuestID(String guestID) {
+	public void setGuestID(int guestID) {
 		this.guestID = guestID;
 	}
 

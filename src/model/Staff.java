@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class Staff extends User implements Serializable{
+public  class Staff extends User implements Serializable{
 
 	public Staff() {
 		super();

@@ -88,10 +88,17 @@ public class Server {								// Server to interact with the DB
 							else if(choice.equals("staff login")){			// logging in
 								output.writeObject(true);
 								System.out.println("Reading manager");
-								Manager man = new Manager();
+								Manager man = new Manager(); 
+								String username,password;
 								man = (Manager) input.readObject();
+//								username = (String) input.readObject();
+//								password = (String) input.readObject();
+//								man.setName(username);
+//								man.setPassword(password);
+								//man = (Staff) input.readObject();
+								//man.equals(" ");
 								System.out.println("Read manager: "+man.getName()+" "+man.getPassword());
-								boolean res = DBM.staffLogin("John","123456");
+								boolean res = DBM.staffLogin(man.getName(),man.getPassword());
 								System.out.println("logged in: "+res);
 								output.writeObject(res);
 							}							
