@@ -23,6 +23,7 @@ public class Server {								// Server to interact with the DB
 		private Logger log;
 		
 		public Server(){
+			log =  Logger.getLogger(getClass());
 			DBM = new DBConnect();
 			this.createConnection();
 			this.waitForRequest();
@@ -97,14 +98,14 @@ public class Server {								// Server to interact with the DB
 							}
 							else if(choice.equals("guest login")){
 								output.writeObject(true);
-								System.out.println("Reading manager");
+								log.info("Reading guest");
 								ArmBand ab = new ArmBand();
 								Guest man = new Guest(ab); 
 								
 								man = (Guest) input.readObject();
-								System.out.println("Read manager: "+man.getName()+" "+man.getPassword());
-								boolean res = DBM.staffLogin(man.getName(),man.getPassword());
-								System.out.println("logged in: "+res);
+								log.info("Reading guest");
+								boolean res = DBM.guestLogin(man.getName(),man.getPassword());
+								log.info("Logged in");
 								output.writeObject(res);
 							}
 							else if(choice.equals("drink table")){

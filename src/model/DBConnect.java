@@ -124,6 +124,29 @@ public final class DBConnect {
 		return conf;
 	}
 	
+	public boolean guestLogin(String user, String pass) throws SQLException{  
+		boolean conf = false;
+		try{
+			java.sql.PreparedStatement prep = conn.prepareStatement("SELECT * FROM guests WHERE name = '"+user+"' AND password = '" + pass + "'");
+			result = prep.executeQuery();
+			
+			int count = 0;
+			while(result.next())
+				++count;
+			if(count == 1){
+				
+				conf = true;
+				log.info("got user");
+			}
+			
+		}
+		
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return conf;
+	}
+	
 	public boolean addOrder(Order order){
 		
 		boolean added = false;

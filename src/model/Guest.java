@@ -1,14 +1,22 @@
 package model;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Guest extends User {
+public class Guest extends User implements Serializable{
 	
 	private String code;
 	private ArmBand band;
+	
+	public Guest( ArmBand band) {
+		super();
+		this.name = "";
+		this.code = "";
+		this.band = band;
+	}	
 	
 	public Guest(String name, String code, ArmBand band) {
 		super();
