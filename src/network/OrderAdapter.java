@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 
 import model.DBConnect;
+import model.Drink;
 
 public  class OrderAdapter{
 	
@@ -30,7 +31,7 @@ public  class OrderAdapter{
 		
 		try {
 			Connection conn = DBConnect.getConnection();
-			ResultSet orderSet = conn.prepareStatement("SELECT * from orders").executeQuery(), typeSet;
+			ResultSet orderSet = conn.prepareStatement("SELECT * from orders").executeQuery();
 			ResultSetMetaData meta = orderSet.getMetaData();
 	        int columnCount = meta.getColumnCount();
 	        
@@ -66,5 +67,41 @@ public  class OrderAdapter{
 		DefaultTableModel tableModel = new DefaultTableModel(orders, columns);
 		
 		return (tableModel);
+	}
+	
+	/**
+	 * Get all drinks on an order.
+	 * @param orderId
+	 * @return Vector of drinks.
+	 */
+	public static Vector<Drink> getDrinks(int orderId){
+		
+		Vector<Drink> drinks = new Vector<Drink>();
+		
+		Connection conn;
+		try {
+			conn = DBConnect.getConnection();
+			// retrieve drinks on order
+			ResultSet drinksOnOrder = conn.prepareStatement(
+					"SELECT drinks_id from orders_has_drinks").executeQuery(), singleDrink;
+
+			while(drinksOnOrder.next()){
+				// retrieve details of each drink
+				singleDrink = conn.prepareStatement(
+						"SELECT * from drinks WHERE id = "
+								+ Integer.parseInt(drinksOnOrder.getObject(2)
+										.toString())).executeQuery();
+				Drink drink = new Drink(singleDrink.getObject(2).toString(), // drink name
+						Integer.parseInt(singleDrink.getObject(4).toString()), // drink type
+						Double.parseDouble(singleDrink.getObject(3).toString()) // drink price
+				);
+				singleDrink.close();
+				drinks.add(drink);
+			}
+			drinksOnOrder.close();	
+		} catch (SQLException e) {
+			log.error("SQLException: "+e.getCause());
+		}
+		return drinks;
 	}
 }
