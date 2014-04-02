@@ -8,6 +8,7 @@ package model;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
@@ -174,6 +175,39 @@ public final class DBConnect {
 		}
 		
 		return added;
+	}
+	
+	public Guest getGuest(String name){
+		ArmBand ab = new ArmBand(); 
+		
+		log.info("trying to read gues & armband from DB");
+		try{
+			PreparedStatement statemen = conn.prepareStatement("SELECT * FROM guests WHERE name = '"+name+"'");
+			result = statemen.executeQuery();
+			result.next();
+			String gName =(String) result.getObject(3);
+			int aid = (Integer) result.getObject(6);
+			
+			PreparedStatement prep = conn.prepareStatement("SELECT * FROM armbands WHERE id = '"+aid+"'");
+			result = prep.executeQuery();
+			result.next();
+			ab.setColour((Integer) result.getObject(4)); 
+			
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		Guest guest = new Guest(ab);
+		
+		log.info("got guest and armband color: "+ab.getColour());
+		
+		return guest;
+	}
+	public ArrayList<Drink> getDrinkReport(Date date){
+		ArrayList<Drink> drinkList = new ArrayList<Drink>();
+		
+		return drinkList;
 	}
 	
 	public static Connection getConnection() throws SQLException{

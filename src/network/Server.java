@@ -107,14 +107,25 @@ public class Server {								// Server to interact with the DB
 								boolean res = DBM.guestLogin(man.getName(),man.getPassword());
 								log.info("Logged in");
 								output.writeObject(res);
+								output.writeObject(DBM.getGuest(man.getName()));
+							}
+							else if(choice.equals("drink table guest")){
+								DrinkAdapter da = new DrinkAdapter();
+								Guest use = (Guest) input.readObject();
+								output.writeObject(da.getTableModelForGuest(use));
 							}
 							else if(choice.equals("drink table")){
-								DrinkAdapter da = new DrinkAdapter();
-								output.writeObject(da.getTableModel());
+								output.writeObject(DrinkAdapter.getTableModel());
 							}
 							else if(choice.equals("order table")){
-								OrderAdapter aa = new OrderAdapter();
-								output.writeObject(aa.getTableModel());
+								 
+								output.writeObject(OrderAdapter.getTableModel(null));
+							}
+							else if(choice.equals("report table")){
+							//	java.sql.Date date = (java.sql.Date) input.readObject();
+								java.sql.Date d = new java.sql.Date(1,4,2014);
+								output.writeObject(OrderAdapter.getTableModel(d));
+								
 							}
 							else if(choice.equals("add order")){
 								

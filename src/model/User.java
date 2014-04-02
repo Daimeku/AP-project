@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.log4j.*;
 
-public abstract class User implements Serializable {
+public abstract class User implements Serializable{
 	protected static final Logger log = Logger.getLogger(User.class); //logger for User class and children
 	protected String id;
 	protected String name;

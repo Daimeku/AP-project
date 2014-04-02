@@ -1,6 +1,7 @@
 package network;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -21,16 +22,18 @@ public  class OrderAdapter{
 	 * Get the orders table.
 	 * @return DefaultTableModel
 	 */
-	public static DefaultTableModel getTableModel(){
+	public static DefaultTableModel getTableModel(Date date){
 		
 		Vector<Object> orders = new Vector<Object>(); // to return
 		Vector<Object> orderRow = new Vector<Object>(); // a row
 		Vector<Object> columns = new Vector<Object>(); // columns
 		
-		
+		log.info("getting order table model");
 		try {
 			Connection conn = DBConnect.getConnection();
-			ResultSet orderSet = conn.prepareStatement("SELECT * from orders").executeQuery();
+			ResultSet orderSet;
+			orderSet = (date == null)?conn.prepareStatement("SELECT * from orders").executeQuery():
+				conn.prepareStatement("SELECT * from orders WHERE date = " + date).executeQuery();
 			ResultSetMetaData meta = orderSet.getMetaData();
 	        int columnCount = meta.getColumnCount();
 	        
@@ -69,6 +72,7 @@ public  class OrderAdapter{
 			}
 			
 			// close connection
+			orderSet.close();
 			conn.close();
 		}catch(SQLException e){
 			log.error("SQLException: "+e.getStackTrace());
@@ -80,7 +84,8 @@ public  class OrderAdapter{
 		}
 		DefaultTableModel tableModel = new DefaultTableModel(orders, columns);
 		
-		return (tableModel);
+		log.info("got order table model");
+		return tableModel;
 	}
 	
 	/**
