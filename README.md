@@ -3,7 +3,6 @@ AP-project
 
 AP project 
 
-<<<<<<< HEAD
 
 University of Technology, Jamaica
 School of Computing and Information Technology
