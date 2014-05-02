@@ -79,6 +79,7 @@ public  class OrderAdapter{
 			e.printStackTrace();
 		}catch(NumberFormatException e){
 			log.error("NumberFormatException: "+e.getCause());
+			e.printStackTrace();
 		}finally{
 			// keep going...
 		}

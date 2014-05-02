@@ -6,14 +6,14 @@ import java.util.ArrayList;
 public class Order implements Serializable{
 	
 	private int guestID;
-	private String id;
+	private int id;
 	private java.util.Date date;
 	private ArrayList<Drink> drinkList;
 	private java.sql.Date ddate;
 	
 	public Order(){		
 		guestID = 0;
-		id="0000";
+		id=(int) (Math.random() *1000);
 		date = new java.util.Date();
 		drinkList = new ArrayList<Drink>();		
 		ddate = new java.sql.Date(date.getTime());
@@ -25,9 +25,19 @@ public class Order implements Serializable{
 	public Order(Drink drink) {
 		super();
 		this.guestID = 1;
-		this.id = "0000";
+		this.id = (int) (Math.random() *1000);
 		this.date = new java.util.Date();
 		drinkList.add(drink);
+		this.ddate = new java.sql.Date(date.getTime());
+		
+	}
+	
+	public Order(ArrayList<Drink> drinkL) {
+		super();
+		this.guestID = 0;
+		this.id = (int) (Math.random() *1000);
+		this.date = new java.util.Date();
+		drinkList = drinkL;
 		this.ddate = new java.sql.Date(date.getTime());
 		
 	}
@@ -54,11 +64,11 @@ public class Order implements Serializable{
 		this.guestID = guestID;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

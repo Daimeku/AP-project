@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
+import java.sql.Time;
 
 import javax.swing.JOptionPane;
 
@@ -79,8 +80,9 @@ public class Server {								// Server to interact with the DB
 								output.writeObject(true);
 								Drink tempDrink = new Drink();
 								tempDrink = (Drink) input.readObject();
-								output.writeObject(DBM.addDrink(tempDrink));
-								System.out.println("Drink added");
+								boolean res = DBM.updateDrink(tempDrink);
+								output.writeObject(res);
+								System.out.println("Drink changed? "+res);
 							}
 							else if(choice.equals("delete drink")){		// deleting a drink
 								
@@ -123,7 +125,7 @@ public class Server {								// Server to interact with the DB
 							}
 							else if(choice.equals("report table")){
 							//	java.sql.Date date = (java.sql.Date) input.readObject();
-								java.sql.Date d = new java.sql.Date(1,4,2014);
+								java.sql.Date d = new java.sql.Date(new java.util.Date().getTime());
 								output.writeObject(OrderAdapter.getTableModel(d));
 								
 							}

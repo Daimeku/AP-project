@@ -11,6 +11,7 @@ public class ArmBand implements Serializable{
 	private Date endDate;
 	private int colour;
 	private String code;
+	private int guestID;
 	
 	public ArmBand(){
 		startDate= new Date();
@@ -50,5 +51,37 @@ public class ArmBand implements Serializable{
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+	@Override
+	public String toString() {
+		return "ArmBand [startDate=" + startDate + ", endDate=" + endDate
+				+ ", colour=" + colour + ", code=" + code + ", guestID="
+				+ guestID + "]";
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getGuestID() {
+		return guestID;
+	}
+
+	public void setGuestID(int guestID) {
+		this.guestID = guestID;
+	}
+	
 	
 }

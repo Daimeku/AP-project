@@ -13,6 +13,8 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import network.OrderAdapter;
+
 import org.apache.log4j.Logger;
 
 
@@ -70,7 +72,12 @@ public final class DBConnect {
 	public boolean updateDrink(Drink drink){
 		boolean conf = false;
 		try{
-			PreparedStatement prep = conn.prepareStatement("UPDATE drinks SET name='"+drink.getName()+"' price='"+drink.getPrice()+"' WHERE id = '"+drink.getID()); 
+			PreparedStatement prePrep = conn.prepareStatement("SELECT * FROM drinks WHERE name = '"+drink.getName()+"'");
+			result = prePrep.executeQuery();
+			result.next();
+			int id = (Integer) result.getObject(1);
+			
+			PreparedStatement prep = conn.prepareStatement("UPDATE drinks SET name='"+drink.getName()+"', price='"+drink.getPrice()+"', type='" + drink.getType() +"' WHERE id = '"+ id +"'"); 
 			int numChanged = prep.executeUpdate();
 			if( numChanged > 0 ){
 				conf = true;
@@ -78,9 +85,11 @@ public final class DBConnect {
 		}
 		catch(SQLException ex){
 			log.error("SQL exception in update drink");
+			ex.printStackTrace();
 		}
 		catch(Exception ex){
 			log.error("Exception in update drink");
+			ex.printStackTrace();
 		}
 		return conf;
 	}
@@ -148,23 +157,57 @@ public final class DBConnect {
 		return conf;
 	}
 	
+	public int getDrinkId(String drinkName){
+		int id=0;
+		try{
+		PreparedStatement prep = conn.prepareStatement("SELECT * FROM drinks WHERE name = '"+drinkName+"'");
+		result = prep.executeQuery();
+		while(result.next()){
+			id = (Integer) result.getObject(1);
+			log.info("id: "+id);
+		}
+		
+		}
+		catch(SQLException ex){
+			ex.printStackTrace();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return id;
+	}
+	
 	public boolean addOrder(Order order){
 		
 		boolean added = false;
 		int k=0;
 		try{
-			PreparedStatement prep = conn.prepareStatement("INSERT into orders (date,guest_id) VALUES ('"+ order.getDdate() +"', '"+order.getGuestID()+"')");
+			PreparedStatement prep = conn.prepareStatement("INSERT into orders (id,date,guest_id) VALUES ('"+order.getId()+"', '"+ order.getDdate() +"', '"+order.getGuestID()+"')");
 			
 			int p = prep.executeUpdate();
 			//result = prep2.executeQuery();
 			
+			ArrayList<Drink> dList = order.getDrinkList();
+			int drinkCounter = dList.size()-1;
+			log.info("tempDrinkList size: " + drinkCounter);
 			
-				while(!order.getDrinkList().isEmpty())	{
-						Drink tempDrink = new Drink();
+				while(drinkCounter >= 0)	{
 						
-						tempDrink = order.getDrinkList().remove(order.getDrinkList().size()-1);
+						
+					Drink tempDrink  = dList.get(drinkCounter);
+					
+					tempDrink.setName(dList.get(drinkCounter).getName());
+					log.info("tempDrink name: " + tempDrink.getName());
+					tempDrink.setID(this.getDrinkId(tempDrink.getName()));
+			
+			
+						
+					//	ArrayList<Drink> drinkList = OrderAdapter.getDrinks(orderId);
+						//if(drinkList.)
+						log.info("DRINK ID: "+tempDrink.getID());
 						PreparedStatement prep2 = conn.prepareStatement("INSERT into orders_has_drinks (orders_id, drinks_id) VALUES ('"+ order.getId() +"', '" + tempDrink.getID() + "')");
 						k = prep2.executeUpdate();
+						drinkCounter--;
 				}
 					
 				if (p>0)
@@ -175,6 +218,29 @@ public final class DBConnect {
 		}
 		
 		return added;
+	}
+	
+	public ArrayList<Drink> getDrinks(){
+		ArrayList<Drink> drinkList = new ArrayList<Drink>();
+		try{
+			PreparedStatement state = conn.prepareStatement("SELECT * FROM drinks");
+			result = state.executeQuery();
+			
+			while(result.next()){
+				Drink drink = new Drink();
+				drink.setID( (Integer) result.getObject(1) );
+				drink.setName( (String) result.getObject(2) );
+				drink.setPrice( (Double) result.getObject(3) );
+				drink.setType((Integer) result.getObject(4));
+				
+				drinkList.add(drink);
+			}
+		
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return drinkList;
 	}
 	
 	public Guest getGuest(String name){
@@ -188,10 +254,14 @@ public final class DBConnect {
 			String gName =(String) result.getObject(3);
 			int aid = (Integer) result.getObject(6);
 			
+			
 			PreparedStatement prep = conn.prepareStatement("SELECT * FROM armbands WHERE id = '"+aid+"'");
 			result = prep.executeQuery();
 			result.next();
 			ab.setColour((Integer) result.getObject(4)); 
+			int gid = (Integer) result.getObject(4);
+			ab.setGuestID(gid);
+			
 			
 		}
 		catch(Exception ex){

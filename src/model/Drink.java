@@ -27,12 +27,14 @@ public class Drink implements Serializable{
 		this.name = drinkName;
 		this.type = drinkType;
 		this.price = drinkPrice;
+		this.ID = (int) (Math.random() *1000);
 	}
 	
 	public Drink(){
 		price=0;
 		name="drink";
 		type=0;
+		ID = (int) (Math.random() *1000);
 	}
 	
 	
