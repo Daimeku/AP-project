@@ -3,17 +3,13 @@ AP-project
 
 AP project 
 
-<<<<<<< HEAD
 
 University of Technology, Jamaica
 School of Computing and Information Technology
 Advanced Programming Using JAVA
 Term Project
 
-Given: Week 1 of 2014
-Due: Week of ? in Lab Session
-Weight 5 + 15%
-Drink Ordering System
+
 
 CaribResort is an all-inclusive hotel on the north coast in Jamaica. The manager in the hotel wants to keep track of the daily frequency that any specific drink is ordered. If a guest has on an orange armband, he/she is over 18 years of age can order any drink, otherwise the guest is under 18 and cannot order alcoholic drinks. All armbands contain a small RFID tag that indicates the type. When a guest orders a drink, the order goes to the bartender and the drink will be taken to the guest seated at the bar.
 
