@@ -94,10 +94,10 @@ public final class DBConnect {
 		return conf;
 	}
 	
-	public boolean deleteDrink(String id){
+	public boolean deleteDrink(String name){
 		boolean conf = false;
 		try{
-			PreparedStatement prep = conn.prepareStatement("DELETE * FROM drinks WHERE id='"+id+"'"); 
+			PreparedStatement prep = conn.prepareStatement("DELETE FROM drinks WHERE name ='"+name+"'"); 
 			int numChanged = prep.executeUpdate();
 			if( numChanged > 0 ){
 				conf = true;
@@ -105,9 +105,11 @@ public final class DBConnect {
 		}
 		catch(SQLException ex){
 			log.error("SQL Exception in delete drink");
+			ex.printStackTrace();
 		}
 		catch(Exception ex){
 			log.error(" exception in delete Drink");
+			ex.printStackTrace();
 		}
 		return conf;
 	}
@@ -123,7 +125,7 @@ public final class DBConnect {
 			if(count == 1){
 				
 				conf = true;
-				System.out.println("got user");
+				log.info("got user");
 			}
 			
 		}
