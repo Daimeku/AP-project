@@ -34,7 +34,7 @@ Design your database diagram and class diagram that you will use to model your d
 The project requires that a database named ap-project be setup. Using a wamp, lamp, or mamp stack such as xampp visit localhost/phpmyadmin after turning on php and mysql from the xampp control panel. While in phpmyadmin click on sql then copy the scripts inside the scripts in the sql file located at db/ap-project-UPDATED DB-.sql. Paste the copied sql script inside the sql window in phpmyadmin then click "GO". This should create the database and do all the necessary initial inserts required for the project to run. Run the clien and then the server or vice versa.
 
 Login username: Brandon (staff)
-Password: 123456
+Password: 123456 --- 
 Login username: lisa (guest)
 Password: 123456
 
