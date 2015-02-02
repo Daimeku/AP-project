@@ -168,7 +168,7 @@ public class ManagerView extends JFrame {
 		table.setRowHeight(27);
 		table.setGridColor(new Color(0, 0, 0));
 		table.setBackground(new Color(211, 211, 211));
-		table.setModel(DrinkAdapter.getTableModel());
+		//table.setModel(DrinkAdapter.getTableModel());
 		
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
